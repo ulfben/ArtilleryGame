@@ -1,18 +1,18 @@
 #include "Window.h"
 #include "SDLSystem.h"
 #include <stdexcept>
-Window::Window(const std::string_view title, int width, int height):
-	_ptr(SDL_CreateWindow(title.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_OPENGL)){
+Window::Window(std::string_view title, WindowSettings cfg)  :
+	_ptr(SDL_CreateWindow(title.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, cfg.width, cfg.height, cfg.flags)){
 	if (!_ptr) {
 		throw SDLError();
 	}
 }
-void Window::setTitle(const std::string_view title) const noexcept {
+void Window::setTitle(std::string_view title) const noexcept {
 	SDL_SetWindowTitle(_ptr.get(), title.data());
 }
 
-SDL_Window* Window::getRawPtr() const noexcept {
-	SDL_assert(_ptr != nullptr && "Window: invalid pointer. Use after delete?");
+SDL_Window* Window::getPtr() const noexcept {
+	assert(_ptr != nullptr && "Window: invalid pointer. Use after delete?");
 	return _ptr.get();
 }
 bool Window::getWindowGrab() const noexcept {

@@ -1,27 +1,27 @@
 #define SDL_MAIN_HANDLED
 #define SDL_STBIMAGE_IMPLEMENTATION 
 #include "SDL_stbimage.h"
+#include <iostream>
 #include "Config.h"
 #include "SDLSystem.h"
 #include "InputManager.h"
 #include "Renderer.h"
 #include "Window.h"
 #include "Texture.h"
-#include <iostream>
-#include <string_view>
+#include "Artillery.h"
 
-int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
-{    
-    try {
-        SDLSystem _sdl;
-        Window _window { Cfg::TITLE, Cfg::WIN_WIDTH, Cfg::WIN_HEIGHT };
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){    
+    try {        
+        SDLSystem _sdl(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
+        Window _window{Cfg::TITLE, WindowSettings{}};
         Renderer _r { _window };        
         InputManager _input {};
 
-        //std::string imgpath("./images/background.jpg");
         Texture bg(_r, Cfg::img::background);
         Texture landscape(_r, Cfg::img::landscape);
               
+        Artillery a;
+
         while (!_input.quitRequested()) {
             _input.update();                       
             _r.clear();
@@ -39,7 +39,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     } catch (const std::exception& e) {
         std::cerr << "Exception: " << e.what() << std::endl;
     } catch (...) {
-        std::cerr << "Unknown failure occurred. Possible memory corruption" << std::endl;
+        std::cerr << "Unknown failure occurred. Exiting." << std::endl;
     }
-    return EXIT_FAILURE;
+    return EXIT_SUCCESS;
 }

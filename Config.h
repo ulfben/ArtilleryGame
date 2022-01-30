@@ -9,10 +9,10 @@ namespace Cfg {
 	static constexpr std::string_view TITLE = "ArtilleryGame"sv;	
 	static constexpr int WIN_WIDTH = 800;
 	static constexpr int WIN_HEIGHT = 600;			
+	static const KeyMap moveForward{SDL_SCANCODE_KP_8, SDL_SCANCODE_UP, SDL_SCANCODE_W};
+    static const KeyMap rotateLeft{SDL_SCANCODE_KP_4, SDL_SCANCODE_LEFT, SDL_SCANCODE_A};
+    static const KeyMap moveBackward{SDL_SCANCODE_KP_2, SDL_SCANCODE_DOWN, SDL_SCANCODE_S};	
 	static const KeyMap rotateRight{ SDL_SCANCODE_KP_6, SDL_SCANCODE_RIGHT, SDL_SCANCODE_D };
-	static const KeyMap rotateLeft{ SDL_SCANCODE_KP_4, SDL_SCANCODE_LEFT, SDL_SCANCODE_A };
-	static const KeyMap moveForward{ SDL_SCANCODE_KP_8, SDL_SCANCODE_UP, SDL_SCANCODE_W };
-	static const KeyMap moveBackward{ SDL_SCANCODE_KP_2, SDL_SCANCODE_DOWN, SDL_SCANCODE_S };	
 
 	namespace img {
 		static constexpr std::string_view background("./images/background.jpg");
@@ -25,3 +25,4 @@ namespace Cfg {
 		static constexpr std::string_view expl1("./images/expl1.png");
 	}
 };
+

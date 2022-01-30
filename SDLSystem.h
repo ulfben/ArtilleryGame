@@ -8,8 +8,13 @@ class SDLSystem {
 	static SDL_version _compiled;
 	static SDL_version _linked;
 public:
-	SDLSystem(Uint32 flags = SDL_INIT_VIDEO|SDL_INIT_EVENTS);
-	~SDLSystem();
+	SDLSystem(Uint32 flags);
+	~SDLSystem() noexcept;
+    SDLSystem(const SDLSystem&) = delete;
+    SDLSystem(SDLSystem&&) noexcept = delete;
+    SDLSystem& operator=(const SDLSystem&) = delete;
+    SDLSystem& operator=(SDLSystem&&) noexcept = delete;
+
 	void printAssertionReport() const noexcept;
 	void initSubSystem(Uint32 flags) const;
 	void quitSubSystem(Uint32 flags) const noexcept;

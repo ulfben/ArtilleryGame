@@ -13,15 +13,15 @@
 #endif
 class Surface
 {
-	SDLex::SurfaceShPtr _ptr;
+	std::shared_ptr<SDL_Surface> _ptr;
 public:
 	Surface(SDL_Surface* ptr);
-	Surface(const std::string& file);
+	Surface(std::string_view file);
 	Surface(int width, int height, int depth=32, Uint32 Rmask= _rmask, Uint32 Gmask= _gmask, Uint32 Bmask= _bmask, Uint32 Amask= _amask);
 	Surface(void* pixels, int width, int height, int depth, int pitch, Uint32 Rmask = _rmask, Uint32 Gmask = _gmask, Uint32 Bmask = _bmask, Uint32 Amask = _amask);
 	//Surface(void* pixels, int width, int height, int depth, int pitch, Uint32 format=SDL_PIXELFORMAT_RGBA32); //TODO,  comes SDL with 2.0.5!
 	//Surface(int width, int height, int depth=32, Uint32 format=SDL_PIXELFORMAT_RGBA32); //TODO,  comes SDL with 2.0.5!	
-	~Surface();
+	
 	
 	bool mustLock() const noexcept;
 	bool lock() const noexcept;
@@ -36,11 +36,13 @@ public:
 	void fillRect(const SDL_Rect* rect, Uint32 color) const noexcept;
 	void fillRects(const SDL_Rect* rects, int count, Uint32 color) const noexcept;
 	void getClipRect(SDL_Rect& rect) const noexcept;
-	void convertSurface(Uint32 pixel_format);
-	void convertSurface(const SDL_PixelFormat* fmt);
-	Surface clone() const noexcept;
-	inline SDL_Surface* getRawPtr() const noexcept;
+	Surface convertSurface(Uint32 pixel_format) const;
+	Surface convertSurface(const SDL_PixelFormat* fmt) const;
+	Surface clone() const;
+	inline SDL_Surface* getPtr() const noexcept;
 	int width() const noexcept;
 	int height() const noexcept;
+    void* pixels() const noexcept { return getPtr()->pixels; }
+	int pitch() const noexcept { return getPtr()->pitch; }
 };
 

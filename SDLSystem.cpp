@@ -8,15 +8,15 @@ SDLSystem::SDLSystem(Uint32 flags) {
 	if (SDL_Init(flags) != 0) {
 		throw SDLInitError();
 	}	
+	_flags = flags;
 	_basePath.reset(SDL_GetBasePath());
 	_prefPath.reset(SDL_GetPrefPath("ulfben", "ArtilleryGame"));
 	if (!_prefPath || !_basePath) {
 		SDL_Quit();
 		throw SDLInitError();
-	}
-	_flags = flags;	
+	}		
 }
-SDLSystem::~SDLSystem() {
+SDLSystem::~SDLSystem() noexcept {
 	printAssertionReport();
 	SDL_Quit();	
 }
@@ -57,12 +57,16 @@ std::string_view SDLSystem::getPrefPath() const noexcept {
 	return _prefPath.get();
 }
 void SDLSystem::printAssertionReport() const noexcept {
-	const SDL_assert_data* item = SDL_GetAssertionReport();
-	while (item) {
-		printf("'%s', %s (%s:%d), triggered %u times, always ignore: %s.\n",
-			item->condition, item->function, item->filename,
-			item->linenum, item->trigger_count,
-			item->always_ignore ? "yes" : "no");
-		item = item->next;
-	}
+  try {
+    const SDL_assert_data* item = SDL_GetAssertionReport();
+    while (item) {
+      std::printf("'%s', %s (%s:%d), triggered %u times, always ignore: %s.\n",
+                  item->condition, item->function, item->filename,
+                  item->linenum, item->trigger_count,
+                  item->always_ignore ? "yes" : "no");
+      item = item->next;
+    }
+  } catch (...) {
+	  //swallow any exceptions while logging. . 
+  }
 }

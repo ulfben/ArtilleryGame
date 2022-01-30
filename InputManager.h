@@ -23,6 +23,7 @@ struct MouseData {
 class InputManager {
 	InputManager(const InputManager&) = delete;	
 	InputManager& operator=(InputManager&) = delete;	
+
 	void onWindowEvent(const SDL_WindowEvent& e) noexcept;	
 	void onMouseMove(const SDL_MouseMotionEvent& e) noexcept;
 	void onMouseButtonUp(const SDL_MouseButtonEvent& e) noexcept;
@@ -35,10 +36,10 @@ class InputManager {
 	bool _wantPause = false;				
 
 public:
-	InputManager();
-	~InputManager();
+        InputManager() noexcept(false);
+
 	void update() noexcept;
-	bool isKeyDown(const SDL_Scancode& key) const noexcept;
+	bool isKeyDown(SDL_Scancode key) const noexcept;
 	bool isButtonDown(MouseButton b) const noexcept;
 	bool quitRequested() const noexcept;
 	bool pauseRequested() const noexcept;

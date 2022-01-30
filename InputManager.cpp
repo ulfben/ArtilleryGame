@@ -1,17 +1,17 @@
 #include "InputManager.h"
 #include <stdexcept>
+#include <cassert>
 #include "SDLSystem.h"
 #include "Utils.h"
 
-InputManager::InputManager():
+InputManager::InputManager() noexcept(false)
+    :
 		_keyStates(SDL_GetKeyboardState(nullptr)){
 	if (!_keyStates) {
 		throw std::runtime_error(SDL_GetError());
 	}
 }
-InputManager::~InputManager() {
-	_keyStates = nullptr;
-}
+
 void InputManager::update() noexcept {
 	_mouse.reset();
 	SDL_Event e;
@@ -46,16 +46,22 @@ void InputManager::update() noexcept {
 		}	
 	}
 }
+
+//While the mouse is in relative mode, the cursor is hidden, and the driver will try to report continuous motion in the current window. Only relative motion events will be delivered, the mouse position will not change.
 void InputManager::setRelativeMouseMode(bool on) const noexcept {
-	int res = SDL_SetRelativeMouseMode(SDLex::fromBool(on));
-	SDL_assert(res == 0);
+	const int res = SDL_SetRelativeMouseMode(SDLex::fromBool(on));
+	assert(0 == res);
 }
 
-bool InputManager::isKeyDown(const SDL_Scancode& scanCode) const noexcept {
+bool InputManager::isKeyDown(const SDL_Scancode scanCode) const noexcept {
+	[[gsl::suppress(bounds.1)]] //Bounds.1: Don't use pointer arithmetic. Use span instead.
 	return (_keyStates[scanCode] == 1);
 }
 bool InputManager::isButtonDown(MouseButton b) const noexcept {
 	const auto index = Utils::to_underlying(b);
+	assert(index < _buttonStates.size());		
+	[[gsl::suppress(bounds.2)]] //Bounds.2: only index into arrays using constant expressions
+	[[gsl::suppress(bounds.4)]] //Bounds.4: prefer gsl::at() instead of inchecked subscript operator
 	return _buttonStates[index] == true;
 }
 int InputManager::mouseX() const noexcept {
@@ -101,8 +107,12 @@ void InputManager::onMouseMove(const SDL_MouseMotionEvent& e) noexcept {
 	_mouse.yrel = e.yrel;
 }
 void InputManager::onMouseButtonUp(const SDL_MouseButtonEvent& e) noexcept {
+	[[gsl::suppress(bounds.2)]] //Bounds.2: only index into arrays using constant expressions
+	[[gsl::suppress(bounds.4)]] //Bounds.4: prefer gsl::at() instead of inchecked subscript operator
 	_buttonStates[e.button] = false;
 }
 void InputManager::onMouseButtonDown(const SDL_MouseButtonEvent& e) noexcept {
+	[[gsl::suppress(bounds.2)]] //Bounds.2: only index into arrays using constant expressions
+	[[gsl::suppress(bounds.4)]] //Bounds.4: prefer gsl::at() instead of inchecked subscript operator
 	_buttonStates[e.button] = true;
 }

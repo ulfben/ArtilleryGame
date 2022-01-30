@@ -16,9 +16,9 @@ namespace Utils {
 		return (val > max) ? max : (val < min) ? min : val;
 	}	
 	
-	template <typename Real>
-	constexpr int32_t ceil(Real num) noexcept {
-		return (static_cast<Real>(static_cast<int32_t>(num)) == num)
+	template <typename Coordinate>
+	constexpr int32_t ceil(Coordinate num) noexcept {
+		return (static_cast<Coordinate>(static_cast<int32_t>(num)) == num)
 			? static_cast<int32_t>(num)
 			: static_cast<int32_t>(num) + ((num > 0) ? 1 : 0);
 	}
@@ -53,6 +53,12 @@ namespace Utils {
 
 	constexpr inline float roundToNthDecimal(float value, int precision=1000) noexcept {
 		assert(precision != 0);
-		return ((float)((int)(value * precision))) / precision;
+		return (static_cast<float>(static_cast<int>(value * precision))) / precision;
 	}
-}
+
+	// narrow_cast(): a searchable way to do narrowing casts of values
+        template <class T, class U>
+        constexpr T narrow_cast(U&& u) noexcept {
+          return static_cast<T>(std::forward<U>(u));
+        }
+        }
