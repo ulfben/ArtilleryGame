@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{17459b9c-0efb-45aa-a685-8680dd3ee475}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\pygame-zero">
+      <UniqueIdentifier>{ab0abe4c-011e-47e2-a86d-d6451ed99643}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h">
@@ -62,6 +65,12 @@
     </ClInclude>
     <ClInclude Include="Random.h">
       <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Header Files\pygame-zero</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes.h">
+      <Filter>Header Files\pygame-zero</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

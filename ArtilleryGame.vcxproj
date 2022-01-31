@@ -159,11 +159,13 @@
   <ItemGroup>
     <ClInclude Include="Artillery.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="DataTypes.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Keys.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Screen.h" />
     <ClInclude Include="SDLex.h" />
     <ClInclude Include="SDLSystem.h" />
     <ClInclude Include="StringUtils.h" />
