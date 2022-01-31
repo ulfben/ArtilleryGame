@@ -165,6 +165,7 @@
     <ClInclude Include="Keys.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RNG.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="SDLex.h" />
     <ClInclude Include="SDLSystem.h" />
